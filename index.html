@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>NY Times API Portal</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/slate/bootstrap.min.css">
+<!-- <link href="https://fonts.googleapis.com/css?family=Pacifico|VT323|Open+Sans+Condensed:300" rel="stylesheet"> -->
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="icon" href="assets/images/android.png">
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Capt. Jim Reinknecht</a>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+	<div class="well well-lg" id="input">
+		<form id="times-form">
+      	<label for="times-input">Search Terms</label>
+     		 <input type="text" id="times-input"><br>
+         
+         <label for="articles-selection">Select list:</label>
+          <select class="form-control" id="articles-selection">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+         </select>
+         <label for="start-year-input">Start Year(Optional)</label>
+         <input type="text" id="start-year-input"><br>
+         <label for="end-year-input">End Year(Optional)</label>
+         <input type="text" id="end-year-input-input"><br>
+         <input id="add-button" type="submit" value="Search!">
+   		 </form>
+   	</div>
+	<div class="container-fluid" id="selectionPanel">
+ 		
+
+  </div>
+</div>
+<script type="text/javascript" src="assets/js/nytimes.js"></script>
+</body>
+</html>
