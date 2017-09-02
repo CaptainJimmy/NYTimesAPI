@@ -7,6 +7,7 @@ var topic;
 var selectionNumber;
 var startYear;
 var endYear;
+var isPopular;
 //var nytimes=result.data;
 
 //build the ajax call
@@ -42,6 +43,7 @@ switch(searchType){
 
 		case "search":
 		var isSearch=true;
+		isPopular=false;
 		console.log("search2");
   // This line grabs the input from the textbox
         topic = $("#times-input").val().trim();
@@ -71,12 +73,15 @@ switch(searchType){
 
     		case "topStories":
     			queryURL="https://api.nytimes.com/svc/topstories/v2/home.json?api-key="+authKey;
-    			isSearch=false;
+    			isSearch=false; 
+    			isPopular=false;
+
     		break;
 
     		case "mostPopular":
     			 queryURL="https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json?api-key="+authKey;
-    			 isSearch=false;
+    			 isSearch=false; 
+    			 isPopular=true;
    }
 
   $.ajax({
@@ -84,7 +89,7 @@ switch(searchType){
   method: 'GET',
 }).done(function(result) {
 		
-		if (isSearch){
+	if (isSearch){
 		console.log('searchWriteToDOM');
 			var nytimes=result.response.docs;
 
@@ -100,10 +105,10 @@ switch(searchType){
 					.html($('<h2>').text(headline)))
 			 .append($('<p/>').text(snippet+" "+pubDate))			
 				));
-}
-}
+				}
+	}
 //otherwise it is a topStories or a mostPopular
-else {
+else if (!isSearch && !isPopular){
 		var nytimes=result.results;
 	for (var i=0;i<10;i++){
 			var headline=nytimes[i].title;
@@ -122,7 +127,7 @@ else {
 								"alt": headline,
 								"class":"img-responsive pull-left thumbnail"
 							});
-							a.html(newImg).append($('<h2><p>').text(headline));
+							a.html(newImg).append($('<h2>').text(headline));
 							newDiv.html(a).append(abstract + " " + pubDate);
 
 							$('#selectionPanel').prepend(newDiv);
@@ -137,18 +142,50 @@ else {
 			 				// .append($('<p/>').text(abstract+" "+pubDate))			
 								// ))))
 				}
+			else {
+			console.log("NEWDIV ELSE");
+							var newDiv=$('<div>');
+							 newDiv.addClass("well well-lg");
+							 var a=$('<a>').attr("href",webURL);
+							 a.html($('<h2>').text(headline));
+							 newDiv.html(a).append(abstract + " " + pubDate);
+							 $('#selectionPanel').prepend(newDiv);
+				// $('#selectionPanel').prepend(
+			 // 					$('<div>').addClass("well well-lg").append($('<a>').attr("href",webURL)
+				// 					.html($('<h2>').text(headline)))
+			 // 				.append($('<p/>').text(abstract+" "+pubDate)));
+			}
+	}
+}
+else if (!isSearch && isPopular){
+	var nytimes=result.results;
+	console.log("HERE");
+	console.log(nytimes);
+	for (var j=0;j<10;j++){
+	var headline=nytimes[j].title;
+	var abstract=nytimes[j].abstract;
+	var pubDate=nytimes[j].published_date;
+	var webURL=nytimes[j].url;
+	//var image=nytimes[j].media.media/-metadata[2].url;
+	console.log(headline);
+	console.log(abstract);
+	console.log(pubDate);
+	console.log(webURL);
+	console.log(image);
+		var newDiv=$('<div>');
+			newDiv.addClass("well well-lg");
+			 var a=$('<a>').attr("href",webURL);
+			 a.html($('<h2>').text(headline));
+			 newDiv.html(a).append(abstract + " " + pubDate);
+			 $('#selectionPanel').prepend(newDiv);
+			}
+}
+	
 	else {
-		
-				$('#selectionPanel').prepend(
-			 					$('<div>').addClass("well well-lg").append($('<a>').attr("href",webURL)
-									.html($('<h2>').text(headline)))
-			 				.append($('<p/>').text(abstract+" "+pubDate)));
-	}
-	}
-};
-		
+		console.log("ERRORROEROEOROEROROROROORORORRRRR");
+	}	
 });
-};
+}});
 //Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
 
 //if it's a title search, use these JSON elements
