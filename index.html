@@ -19,13 +19,25 @@
   </div>
 </nav>
 <div class="container-fluid">
-	<div class="well well-lg" id="input">
-		<form id="times-form">
-      	<label for="times-input">Search Terms</label>
-     		 <input type="text" id="times-input"><br>
-         
+  <div class="jumbotron text-center">
+      
+      <h1> <span class="glyphicon glyphicon-list-alt"></span>NY Times API Portal<span class="glyphicon glyphicon-list-alt"></span></h1>
+      <p> You can use the search function, with criteria, or choose the following: </p>
+        <button id="topStories" class="btn btn-default btn-lg" type="button">Top Stories </button>
+        <button id="mostPopular" class="btn btn-default btn-lg" type="button">Most Popular </button>
+        <button id="clear" class="btn btn-default btn-lg" type="button">Clear the Results </button>
+        <br><br>
+
+  <form id="times-form" class="text-left">
+  <div class="well well-lg"><p> Search:</p>
+        <div class="row">
+           <div class="col-md-3 col-sm-10">
+        <label for="times-input">Search Term</label>
+         <input type="text" class="input-lg" id="times-input">
+         </div>
+         <div class="col-md-2 col-sm-10">
          <label for="articles-selection">Select list:</label>
-          <select class="form-control" id="articles-selection">
+          <select class="form-control input-sm" id="articles-selection">
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -37,18 +49,37 @@
               <option>9</option>
               <option>10</option>
          </select>
+         </div>
+         
+         <div class="col-md-2 col-sm-10">
          <label for="start-year-input">Start Year(Optional)</label>
-         <input type="text" id="start-year-input"><br>
+         <input type="date" id="start-year-input">
+       </div>
+
+         <div class="col-md-2 col-xs-10"> 
          <label for="end-year-input">End Year(Optional)</label>
-         <input type="text" id="end-year-input-input"><br>
-         <input id="add-button" type="submit" value="Search!">
-   		 </form>
-   	</div>
+         <input type="date" id="end-year-input"><br>
+         </div>
+
+         <div class="col-md-3 co-sm-10">
+         <input id="add-button" class="btn btn-default btn-lg" type="submit" value="Search!">
+         <input id="clear-button" class="btn btn-default btn-lg" type="reset" value="Reset The Form">
+        
+         </div>
+         </div>
+         </div>
+       </form>
+  </div>
+
 	<div class="container-fluid" id="selectionPanel">
  		
 
   </div>
 </div>
 <script type="text/javascript" src="assets/js/nytimes.js"></script>
+<footer class="text-danger text-right">
+Copyright 2017 Capt. Jim Reinknecht
+</footer>
+
 </body>
 </html>
