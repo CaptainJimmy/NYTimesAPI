@@ -3,12 +3,16 @@ $(document).ready(function(){
 var authKey="fb1351dc47cc4e2b9335f0c5ac186dee";
 var queryURL;
 var searchType;
+var topic;
+var selectionNumber;
+var startYear;
+var endYear;
+//var nytimes=result.data;
 
 //build the ajax call
 $("#times-form").on("submit", function(event) {
       event.preventDefault();
           	searchType="search";
-          	console.log(searchType);
 		search(searchType);
 	});
 
@@ -16,14 +20,12 @@ $("#times-form").on("submit", function(event) {
 $("#topStories").on("click", function(event){
 	 event.preventDefault();
 	searchType="topStories";
-	console.log(searchType);
 		search(searchType);
 });
 
 $("#mostPopular").on("click", function(event){
 	 event.preventDefault();
 	searchType="mostPopular";
-	console.log(searchType);
 		search(searchType);
 });
 
@@ -33,61 +35,117 @@ $("#clear").on("click", function(event){
 });
 
 //Build the AJAX Call URL to the API with input, and execute it.
-//Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
+
 function search(searchType){
 	//execute the search function
-if (searchType === "search"){
+switch(searchType){
 
-queryURL="https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
+		case "search":
+		var isSearch=true;
+		console.log("search2");
+  // This line grabs the input from the textbox
+        topic = $("#times-input").val().trim();
+        selectionNumber = $("#articles-selection").val().trim();
+        startYear = $("#start-year-input").val();
+        endYear = $("#end-year-input").val();
+        queryURL="https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
   authKey + "&q=" + topic;
+ 
     startYear=startYear.replace(/-/g,'');
     endYear=endYear.replace(/-/g,'');
-  // This line grabs the input from the textbox
-        var topic = $("#times-input").val().trim();
-        var selectionNumber = $("#articles-selection").val().trim();
-        var startYear = $("#start-year-input").val();
-        var endYear = $("#end-year-input").val();
-    console.log(topic);
-    console.log(selectionNumber);
-    console.log(startYear);
-    console.log(endYear);
+	
+	if (parseInt(startYear) && parseInt(endYear)){
+		    	queryURL+="&begin_date=" + startYear + "&end_date=" + endYear;
+		   
+   			 }
+
+    else if (parseInt(startYear)){
+				queryURL+="&begin_date=" + startYear;
+    		}
+
+   	else if (parseInt(endYear)){
+    			queryURL+="&end_date=" + endYear;
+    		}
+
+    		break;
+
+    		case "topStories":
+    			queryURL="https://api.nytimes.com/svc/topstories/v2/home.json?api-key="+authKey;
+    			isSearch=false;
+    		break;
+
+    		case "mostPopular":
+    			 queryURL="https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json?api-key="+authKey;
+    			 isSearch=false;
+   }
 
   $.ajax({
-  url: url,
+  url: queryURL,
   method: 'GET',
 }).done(function(result) {
-		});
+		
+		//console.log(nytimes); 
+		//writeToDOM(result,isSearch,selectionNumber);
+		if (isSearch){
+		console.log('searchWriteToDOM');
+			var nytimes=result.response.docs;
 
+				for (var i=0;i<selectionNumber;i++){
+					var headline=nytimes[i].headline.main;
+					var snippet=nytimes[i].snippet;
+					var pubDate=nytimes[i].pub_date;
+					var webURL=nytimes[i].web_url;
+
+			$('#selectionPanel').prepend(
+			$('<div>').addClass("well well-lg").append(
+				($('<a>').attr("href",webURL)
+					.html($('<h2>').text(headline)))
+			 .append($('<p/>').text(snippet+" "+pubDate))			
+				));
 }
-		//execute the topStories
-else if (searchType === "topStories"){ 
-queryURL="https://api.nytimes.com/svc/topstories/v2/home.json?api-key="+authKey;
-$.ajax({
-  url: url,
-  method: 'GET',
-}).done(function(result) {
-		});
 }
-	//execute most popular	
-else if (searchType==="mostPopular"){
- queryURL="https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json?api-key="+authKey;
- $.ajax({
-  url: url,
-  method: 'GET',
-}).done(function(result) {
-
-	});
-}
-
-		//oops
-
-else{
-	console.log("ERROR AND STUFF");
-}
-
-}
-
-function writeToDom(){
-
-}
+//otherwise it is a topStories or a mostPopular
+else {
+		var nytimes=result.results;
+	for (var i=0;i<4;i++){
+			var headline=nytimes[i].title;
+			var abstract=nytimes[i].abstract;
+			var pubDate=nytimes[i].published_date;
+			var webURL=nytimes[i].url;
+			var media=nytimes[i].multimedia;
+				if (media.length > 0 ){
+							console.log("got here");
+							console.log(media.length)
+						var image=media[0].url;
+							console.log(image);
+								$('#selectionPanel').prepend(
+			 					$('<div>').addClass("well well-lg").append(
+								($('<a>').html($("<img>").attr({
+									"src": image,
+									"alt": headline})
+								  .append($('<h2>').text(headline)))
+			 				.append($('<p/>').text(abstract+" "+pubDate))			
+								)));
+				}
+	else {
+		
+			 $('#selectionPanel').prepend(
+			 $('<div>').addClass("well well-lg").append(
+				($('<a>').attr("href",webURL)
+					.html($('<h2>').text(headline)))
+			 .append($('<p/>').text(abstract+" "+pubDate))			
+				));
+			}
+	}
+	}
 });
+		
+};
+});
+//Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
+
+//if it's a title search, use these JSON elements
+
+    
+// }).fail(function(err) {
+//   throw err;
