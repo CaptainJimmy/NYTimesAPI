@@ -84,8 +84,6 @@ switch(searchType){
   method: 'GET',
 }).done(function(result) {
 		
-		//console.log(nytimes); 
-		//writeToDOM(result,isSearch,selectionNumber);
 		if (isSearch){
 		console.log('searchWriteToDOM');
 			var nytimes=result.response.docs;
@@ -107,41 +105,50 @@ switch(searchType){
 //otherwise it is a topStories or a mostPopular
 else {
 		var nytimes=result.results;
-	for (var i=0;i<4;i++){
+	for (var i=0;i<10;i++){
 			var headline=nytimes[i].title;
 			var abstract=nytimes[i].abstract;
 			var pubDate=nytimes[i].published_date;
 			var webURL=nytimes[i].url;
 			var media=nytimes[i].multimedia;
 				if (media.length > 0 ){
-							console.log("got here");
-							console.log(media.length)
-						var image=media[0].url;
-							console.log(image);
-								$('#selectionPanel').prepend(
-			 					$('<div>').addClass("well well-lg").append(
-								($('<a>').html($("<img>").attr({
-									"src": image,
-									"alt": headline})
-								  .append($('<h2>').text(headline)))
-			 				.append($('<p/>').text(abstract+" "+pubDate))			
-								)));
+							
+						    var image=media[0].url;
+							 var newDiv=$('<div>');
+							 newDiv.addClass("well well-lg");
+							var a=$('<a>').attr("href",webURL);
+							var newImg=$("<img>").attr({
+								"src": image,
+								"alt": headline,
+								"class":"img-responsive pull-left thumbnail"
+							});
+							a.html(newImg).append($('<h2><p>').text(headline));
+							newDiv.html(a).append(abstract + " " + pubDate);
+
+							$('#selectionPanel').prepend(newDiv);
+
+								// $('#selectionPanel').prepend(
+			 				// 	($('<div>').addClass("well well-lg").append(
+								// ($('<a>').attr("href",webURL)
+								// 	.html($("<img>").attr({
+								// 	"src": image,
+								// 	"alt": headline})
+								//   .append($('<h2>').text(headline)))
+			 				// .append($('<p/>').text(abstract+" "+pubDate))			
+								// ))))
 				}
 	else {
 		
-			 $('#selectionPanel').prepend(
-			 $('<div>').addClass("well well-lg").append(
-				($('<a>').attr("href",webURL)
-					.html($('<h2>').text(headline)))
-			 .append($('<p/>').text(abstract+" "+pubDate))			
-				));
-			}
+				$('#selectionPanel').prepend(
+			 					$('<div>').addClass("well well-lg").append($('<a>').attr("href",webURL)
+									.html($('<h2>').text(headline)))
+			 				.append($('<p/>').text(abstract+" "+pubDate)));
 	}
 	}
-});
-		
 };
+		
 });
+};
 //Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
 
 //if it's a title search, use these JSON elements
