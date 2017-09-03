@@ -8,9 +8,8 @@ var selectionNumber;
 var startYear;
 var endYear;
 var isPopular;
-//var nytimes=result.data;
+//event listeners
 
-//build the ajax call
 $("#times-form").on("submit", function(event) {
       event.preventDefault();
           	searchType="search";
@@ -44,18 +43,17 @@ switch(searchType){
 		case "search":
 		var isSearch=true;
 		isPopular=false;
-		console.log("search2");
-  // This line grabs the input from the textbox
+  // grabs the input from the textbox
         topic = $("#times-input").val().trim();
         selectionNumber = $("#articles-selection").val().trim();
         startYear = $("#start-year-input").val();
         endYear = $("#end-year-input").val();
         queryURL="https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
   authKey + "&q=" + topic;
- 
+ // this removes the unnecessary "-"'s for proper url syntax
     startYear=startYear.replace(/-/g,'');
     endYear=endYear.replace(/-/g,'');
-	
+	// formats the URL for the search function
 	if (parseInt(startYear) && parseInt(endYear)){
 		    	queryURL+="&begin_date=" + startYear + "&end_date=" + endYear;
 		   
@@ -70,27 +68,28 @@ switch(searchType){
     		}
 
     		break;
-
+    			// formats the URL for the Top Stories Button, also sets the selectors to make sure the correct post AJAX jquery is used 
     		case "topStories":
     			queryURL="https://api.nytimes.com/svc/topstories/v2/home.json?api-key="+authKey;
     			isSearch=false; 
     			isPopular=false;
 
     		break;
-
+		// formats the URL for the Most Popular Button
     		case "mostPopular":
     			 queryURL="https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json?api-key="+authKey;
     			 isSearch=false; 
     			 isPopular=true;
    }
 
+//All buttons use the same AJAX call, but with different URLS and different post processing, as each JSON data set returned is different
+
   $.ajax({
   url: queryURL,
   method: 'GET',
 }).done(function(result) {
-		
+	// Search Button has been selected
 	if (isSearch){
-		console.log('searchWriteToDOM');
 			var nytimes=result.response.docs;
 
 				for (var i=0;i<selectionNumber;i++){
@@ -107,7 +106,7 @@ switch(searchType){
 				));
 				}
 	}
-//otherwise it is a topStories or a mostPopular
+//topStories or a mostPopular has been selected. THis grabs top stories
 else if (!isSearch && !isPopular){
 		var nytimes=result.results;
 	for (var i=0;i<10;i++){
@@ -116,8 +115,12 @@ else if (!isSearch && !isPopular){
 			var pubDate=nytimes[i].published_date;
 			var webURL=nytimes[i].url;
 			var media=nytimes[i].multimedia;
+				
+//some articles returned have pictures, some do not.  if media.length is not zero, then there is a picture in an array inside the JSON
+
 				if (media.length > 0 ){
-							
+	//Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
+						
 						    var image=media[0].url;
 							 var newDiv=$('<div>');
 							 newDiv.addClass("well well-lg");
@@ -143,35 +146,26 @@ else if (!isSearch && !isPopular){
 								// ))))
 				}
 			else {
-			console.log("NEWDIV ELSE");
+			// this processes Top Stories entries with no pictures
 							var newDiv=$('<div>');
 							 newDiv.addClass("well well-lg");
 							 var a=$('<a>').attr("href",webURL);
 							 a.html($('<h2>').text(headline));
 							 newDiv.html(a).append(abstract + " " + pubDate);
 							 $('#selectionPanel').prepend(newDiv);
-				// $('#selectionPanel').prepend(
-			 // 					$('<div>').addClass("well well-lg").append($('<a>').attr("href",webURL)
-				// 					.html($('<h2>').text(headline)))
-			 // 				.append($('<p/>').text(abstract+" "+pubDate)));
-			}
 	}
 }
+// processes Most Popular entries
 else if (!isSearch && isPopular){
 	var nytimes=result.results;
-	console.log("HERE");
-	console.log(nytimes);
 	for (var j=0;j<10;j++){
 	var headline=nytimes[j].title;
 	var abstract=nytimes[j].abstract;
 	var pubDate=nytimes[j].published_date;
 	var webURL=nytimes[j].url;
-	//var image=nytimes[j].media.media/-metadata[2].url;
-	console.log(headline);
-	console.log(abstract);
-	console.log(pubDate);
-	console.log(webURL);
-	console.log(image);
+
+//Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
+
 		var newDiv=$('<div>');
 			newDiv.addClass("well well-lg");
 			 var a=$('<a>').attr("href",webURL);
@@ -184,12 +178,9 @@ else if (!isSearch && isPopular){
 	else {
 		console.log("ERRORROEROEOROEROROROROORORORRRRR");
 	}	
-});
+};
 }});
-//Convert the response to bootstrap wells, and append them to the DOM at selectionPanel
 
-//if it's a title search, use these JSON elements
 
-    
 // }).fail(function(err) {
 //   throw err;
