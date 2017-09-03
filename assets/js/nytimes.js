@@ -101,8 +101,8 @@ switch(searchType){
 			$('#selectionPanel').prepend(
 			$('<div>').addClass("well well-lg").append(
 				($('<a>').attr("href",webURL)
-					.html($('<h2>').text(headline)))
-			 .append($('<p/>').text(snippet+" "+pubDate))			
+					.html($('<h2>').text(headline))))
+			 .append($('<p>').text(snippet+" "+pubDate)			
 				));
 				}
 	}
@@ -155,6 +155,7 @@ else if (!isSearch && !isPopular){
 							 $('#selectionPanel').prepend(newDiv);
 	}
 }
+}
 // processes Most Popular entries
 else if (!isSearch && isPopular){
 	var nytimes=result.results;
@@ -178,7 +179,7 @@ else if (!isSearch && isPopular){
 	else {
 		console.log("ERRORROEROEOROEROROROROORORORRRRR");
 	}	
-};
+});
 }});
 
 
