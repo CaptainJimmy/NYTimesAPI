@@ -1,85 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>NY Times API Portal</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css">
-<!-- <link href="https://fonts.googleapis.com/css?family=Pacifico|VT323|Open+Sans+Condensed:300" rel="stylesheet"> -->
-<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="icon" href="assets/images/android.png">
-</head>
-<body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Capt. Jim Reinknecht</a>
-    </div>
-  </div>
-</nav>
-<div class="container-fluid">
-  <div class="jumbotron text-center">
-      
-      <h1> <span class="glyphicon glyphicon-list-alt"></span> NY Times API Portal <span class="glyphicon glyphicon-list-alt"></span></h1>
-      <p> You can use the search function, with criteria, or choose the following: </p>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NY Times API Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Pacifico|VT323|Open+Sans+Condensed:300" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="icon" href="assets/images/android.png">
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Capt. Jim Reinknecht</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="jumbotron text-center">
+        
+        <h1> <span class="glyphicon glyphicon-list-alt"></span> NY Times API Portal <span class="glyphicon glyphicon-list-alt"></span></h1>
+        <p> You can use the search function, with criteria, or choose the following: </p>
         <button id="topStories" class="btn btn-default btn-lg" type="button">Top Stories </button>
         <button id="mostPopular" class="btn btn-default btn-lg" type="button">Most Popular </button>
         <button id="clear" class="btn btn-default btn-lg" type="button">Clear the Results </button>
         <br><br>
-
-  <form id="times-form" class="text-left">
-  <div class="well well-lg"><p> Search:</p>
-        <div class="row">
-           <div class="col-md-3 col-sm-10">
-        <label for="times-input">Search Term</label>
-         <input type="text" class="input-lg" id="times-input">
-         </div>
-         <div class="col-md-2 col-sm-10">
-         <label for="articles-selection">Select list:</label>
-          <select class="form-control input-sm" id="articles-selection">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-         </select>
-         </div>
-         
-         <div class="col-md-2 col-sm-10">
-         <label for="start-year-input">Start Date(Optional)</label>
-         <input type="date" id="start-year-input">
-       </div>
-
-         <div class="col-md-2 col-xs-10"> 
-         <label for="end-year-input">End Date(Optional)</label>
-         <input type="date" id="end-year-input"><br>
-         </div>
-
-         <div class="col-md-3 co-sm-10">
-         <input id="add-button" class="btn btn-default btn-lg" type="submit" value="Search!">
-         <input id="clear-button" class="btn btn-default btn-lg" type="reset" value="Reset The Form">
-        
-         </div>
-         </div>
-         </div>
-       </form>
+        <form id="times-form" class="text-left">
+          <div class="well well-lg"><p> Search:</p>
+          <div class="row">
+            <div class="col-md-3 col-sm-10">
+              <label for="times-input">Search Term</label>
+              <input type="text" class="input-lg" id="times-input">
+            </div>
+            <div class="col-md-2 col-sm-10">
+              <label for="articles-selection">Select list:</label>
+              <select class="form-control input-sm" id="articles-selection">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+            </div>
+            
+            <div class="col-md-2 col-sm-10">
+              <label for="start-year-input">Start Date(Optional)</label>
+              <input type="date" id="start-year-input">
+            </div>
+            <div class="col-md-2 col-xs-10">
+              <label for="end-year-input">End Date(Optional)</label>
+              <input type="date" id="end-year-input"><br>
+            </div>
+            <div class="col-md-3 co-sm-10">
+              <input id="add-button" class="btn btn-default btn-lg" type="submit" value="Search!">
+              <input id="clear-button" class="btn btn-default btn-lg" type="reset" value="Reset The Form">
+              
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="container-fluid" id="selectionPanel">
+      
+    </div>
   </div>
-
-	<div class="container-fluid" id="selectionPanel">
- 		
-
-  </div>
-</div>
-<script type="text/javascript" src="assets/js/nytimes.js"></script>
-<footer class="text-danger text-right">
-Copyright 2017 Capt. Jim Reinknecht
-</footer>
-
+  <script type="text/javascript" src="assets/js/nytimes.js"></script>
+  <footer class="text-danger text-right">
+    Copyright 2017 Capt. Jim Reinknecht
+  </footer>
 </body>
 </html>
